@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Models.DTOs;
+﻿namespace Models.DTOs;
 
 public class CreatePhoneNumberDTO
 {

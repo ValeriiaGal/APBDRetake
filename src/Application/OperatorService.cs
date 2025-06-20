@@ -30,34 +30,35 @@ public class OperatorService(
         }).ToList();
     }
 
-    public Task<int> CreatePhoneNumberAsync(CreatePhoneNumberDTO dto)
+    public async Task<int> CreatePhoneNumberAsync(CreatePhoneNumberDTO dto)
     {
         if (!dto.MobileNumber.StartsWith("+48"))
         {
             throw new ClientInputException("Invalid mobile number. It must start with +48 and be 12 digits long.");
         }
 
-        Task<Client> client = null;
-        if (dto.Client != null && dto.Client.City == null && dto.Client.FullName == null && dto.Client.Email != null )
+        if (dto.Client == null || string.IsNullOrWhiteSpace(dto.Client.Email))
         {
-            client = clientRepository.GetClientByEmailAsync(dto.Client.Email);
+            throw new ClientInputException("Client email is required.");
+        }
 
+        var existingClient = await clientRepository.GetClientByEmailAsync(dto.Client.Email);
+
+        if (existingClient != null)
+        {
             dto.Client = new ClientInputDTO
             {
-                FullName = client.Result.Fullname,
-                Email = client.Result.Email,
-                City = client.Result.City
+                FullName = existingClient.Fullname,
+                Email = existingClient.Email,
+                City = existingClient.City
             };
         }
-
-        if (dto.Client.Email == null ||
-            clientRepository.GetClientByEmailAsync(dto.Client.Email) == null)
+        else if (string.IsNullOrWhiteSpace(dto.Client.FullName) || string.IsNullOrWhiteSpace(dto.Client.City))
         {
-            throw new ClientInputException("No client found.");
+            throw new ClientInputException("Client does not exist and not enough data provided to create a new one.");
         }
 
-        var id = phoneNumberRepository.CreatePhoneNumberAsync(dto);
-
-        return id;
+        return await phoneNumberRepository.CreatePhoneNumberAsync(dto);
     }
+
 }
