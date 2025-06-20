@@ -35,6 +35,14 @@ public class OperatorsController(IOperatorService service) : ControllerBase
             var id = await service.CreatePhoneNumberAsync(dto);
             return Created(id.ToString(), id);
         }
+        catch (ClientInputException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (ServerException e)
+        {
+            return Problem(e.Message);
+        }
         catch (Exception e)
         {
             return Problem(e.Message);

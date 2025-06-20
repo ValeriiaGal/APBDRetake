@@ -1,5 +1,6 @@
 using Application;
 using Application.Interfaces;
+using Models;
 using Repositories;
 using Repositories.Interfaces;
 
@@ -10,6 +11,7 @@ var connStr = builder.Configuration.GetConnectionString("DefaultConnection")
 
 
 builder.Services.AddTransient<IPhoneNumberRepository, PhoneNumberRepository>(_ => new PhoneNumberRepository(connStr!));
+builder.Services.AddTransient<IClientRepository, ClientRepository>(_ => new ClientRepository(connStr!));
 builder.Services.AddTransient<IOperatorService, OperatorService>();
 
 builder.Services.AddControllers();

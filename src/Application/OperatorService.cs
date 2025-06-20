@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using Models;
 using Models.DTOs;
 using Repositories.Interfaces;
@@ -6,12 +7,13 @@ using Repositories.Interfaces;
 namespace Application;
 
 public class OperatorService(
-    IPhoneNumberRepository repository
+    IPhoneNumberRepository phoneNumberRepository,
+    IClientRepository clientRepository
 ) : IOperatorService
 {
     public async Task<List<GetPhoneNumberDTO>> GetAllPhoneNumbersAsync()
     {
-        var query = await repository.GetAllPhoneNumbersAsync();
+        var query = await phoneNumberRepository.GetAllPhoneNumbersAsync();
 
         return query.Select(q => new GetPhoneNumberDTO
         {
@@ -30,6 +32,14 @@ public class OperatorService(
 
     public Task<int> CreatePhoneNumberAsync(CreatePhoneNumberDTO dto)
     {
-        throw new NotImplementedException();
+        if (!dto.MobileNumber.StartsWith("+48"))
+        {
+            throw new ClientInputException("Invalid mobile number. It must start with +48 and be 12 digits long.");
+        }
+        
+        if (dto.Client != null && dto.Client.City == null && dto.Client.FullName == null && dto.Client.Email != null )
+        {
+            var client = clientRepository.GetClientByEmailAsync(dto.Client.Email);
+        }
     }
 }
