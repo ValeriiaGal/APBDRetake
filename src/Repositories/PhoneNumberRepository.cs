@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Models;
+using Models.DTOs;
 using Repositories.Interfaces;
 
 namespace Repositories;
@@ -61,5 +62,10 @@ public class PhoneNumberRepository(string connectionString) : IPhoneNumberReposi
         }
 
         return result;
+    }
+
+    public Task<int> CreatePhoneNumberAsync(CreatePhoneNumberDTO phoneNumber)
+    {
+        
     }
 }

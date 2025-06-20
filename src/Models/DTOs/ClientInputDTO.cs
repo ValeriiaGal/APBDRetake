@@ -9,5 +9,5 @@ public class ClientInputDTO
     [Required] 
     public string Email { get; set; }
 
-    public string City { get; set; }
+    public string? City { get; set; }
 }

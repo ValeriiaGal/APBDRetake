@@ -37,10 +37,27 @@ public class OperatorService(
             throw new ClientInputException("Invalid mobile number. It must start with +48 and be 12 digits long.");
         }
 
-        Task<Client> client;
+        Task<Client> client = null;
         if (dto.Client != null && dto.Client.City == null && dto.Client.FullName == null && dto.Client.Email != null )
         {
             client = clientRepository.GetClientByEmailAsync(dto.Client.Email);
+
+            dto.Client = new ClientInputDTO
+            {
+                FullName = client.Result.Fullname,
+                Email = client.Result.Email,
+                City = client.Result.City
+            };
         }
+
+        if (dto.Client.Email == null ||
+            clientRepository.GetClientByEmailAsync(dto.Client.Email) == null)
+        {
+            throw new ClientInputException("No client found.");
+        }
+
+        var id = phoneNumberRepository.CreatePhoneNumberAsync(dto);
+
+        return id;
     }
 }

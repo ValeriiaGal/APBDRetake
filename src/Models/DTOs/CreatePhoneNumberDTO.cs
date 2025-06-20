@@ -7,7 +7,6 @@ public class CreatePhoneNumberDTO
     public string MobileNumber { get; set; }
     
     public string Operator { get; set; }
-
-    [Required]
+    
     public ClientInputDTO Client { get; set; }
 }

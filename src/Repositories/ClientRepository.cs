@@ -6,7 +6,7 @@ namespace Repositories;
 
 public class ClientRepository(string connectionString) : IClientRepository
 {
-    public async Task<Client> GetClientByEmailAsync(string email)
+    public async Task<Client?> GetClientByEmailAsync(string email)
     {
         Client client = null;
         await using (SqlConnection connection = new SqlConnection(connectionString))
@@ -24,7 +24,7 @@ public class ClientRepository(string connectionString) : IClientRepository
 
                 using var reader = await command.ExecuteReaderAsync();
 
-                if (await reader.ReadAsync())
+                if (!await reader.ReadAsync()) return null;
 
                     client = new Client
                     {

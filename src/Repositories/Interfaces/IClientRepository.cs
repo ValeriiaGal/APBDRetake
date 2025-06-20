@@ -4,5 +4,5 @@ namespace Repositories.Interfaces;
 
 public interface IClientRepository
 {
-    public Task<Client> GetClientByEmailAsync(string email);
+    public Task<Client?> GetClientByEmailAsync(string email);
 }
