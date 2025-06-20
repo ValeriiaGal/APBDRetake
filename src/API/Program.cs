@@ -1,5 +1,7 @@
 using Application;
 using Application.Interfaces;
+using Repositories;
+using Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +9,7 @@ var connStr = builder.Configuration.GetConnectionString("DefaultConnection")
               ?? throw new InvalidOperationException("DefaultConnection connection string configuration is missing.");
 
 
-
+builder.Services.AddTransient<IPhoneNumberRepository, PhoneNumberRepository>(_ => new PhoneNumberRepository(connStr!));
 builder.Services.AddTransient<IOperatorService, OperatorService>();
 
 builder.Services.AddControllers();
