@@ -36,10 +36,11 @@ public class OperatorService(
         {
             throw new ClientInputException("Invalid mobile number. It must start with +48 and be 12 digits long.");
         }
-        
+
+        Task<Client> client;
         if (dto.Client != null && dto.Client.City == null && dto.Client.FullName == null && dto.Client.Email != null )
         {
-            var client = clientRepository.GetClientByEmailAsync(dto.Client.Email);
+            client = clientRepository.GetClientByEmailAsync(dto.Client.Email);
         }
     }
 }
