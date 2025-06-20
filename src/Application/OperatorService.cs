@@ -27,4 +27,9 @@ public class OperatorService(
             }
         }).ToList();
     }
+
+    public Task<int> CreatePhoneNumberAsync(CreatePhoneNumberDTO dto)
+    {
+        throw new NotImplementedException();
+    }
 }

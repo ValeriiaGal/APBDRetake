@@ -5,4 +5,5 @@ namespace Application.Interfaces;
 public interface IOperatorService
 {
     public Task<List<GetPhoneNumberDTO>> GetAllPhoneNumbersAsync();
+    public Task<int> CreatePhoneNumberAsync(CreatePhoneNumberDTO dto);
 }

@@ -26,4 +26,18 @@ public class OperatorsController(IOperatorService service) : ControllerBase
             return Problem(e.Message);
         }
     }
+
+    [HttpPost]
+    public async Task<ActionResult<int>> CreatePhoneNumber([FromBody] CreatePhoneNumberDTO dto)
+    {
+        try
+        {
+            var id = await service.CreatePhoneNumberAsync(dto);
+            return Created(id.ToString(), id);
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
+    }
 }
