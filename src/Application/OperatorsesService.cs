@@ -6,10 +6,10 @@ using Repositories.Interfaces;
 
 namespace Application;
 
-public class OperatorService(
+public class OperatorsesService(
     IPhoneNumberRepository phoneNumberRepository,
     IClientRepository clientRepository
-) : IOperatorService
+) : IOperatorsService
 {
     public async Task<List<GetPhoneNumberDTO>> GetAllPhoneNumbersAsync()
     {

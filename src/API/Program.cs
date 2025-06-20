@@ -12,7 +12,7 @@ var connStr = builder.Configuration.GetConnectionString("DefaultConnection")
 
 builder.Services.AddTransient<IPhoneNumberRepository, PhoneNumberRepository>(_ => new PhoneNumberRepository(connStr!));
 builder.Services.AddTransient<IClientRepository, ClientRepository>(_ => new ClientRepository(connStr!));
-builder.Services.AddTransient<IOperatorService, OperatorService>();
+builder.Services.AddTransient<IOperatorsService, OperatorsesService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -7,7 +7,7 @@ namespace RetakeAPBD;
 
 [ApiController]
 [Route("api/mobiles")]
-public class OperatorsController(IOperatorService service) : ControllerBase
+public class OperatorsController(IOperatorsService service) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<GetPhoneNumberDTO>>> GetAllPhoneNumbers()
